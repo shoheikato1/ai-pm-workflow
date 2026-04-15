@@ -62,6 +62,20 @@ The second-order effect is the more interesting one. When every message runs a v
 
 ---
 
+## 5. Customer signal is everywhere. Most of it evaporates.
+
+Every cross-functional meeting surfaces customer signal. A sales rep mentions why three deals stalled on the same objection. A designer shares where users hesitated in a prototype. A CS lead describes the support pattern that appeared after the last release. It gets said, sometimes noted, and almost never makes it into a product decision.
+
+I built a skill that treats cross-functional meetings as a structured customer insight channel. After every GTM sync, design review, leadership all-hands, or multi-team meeting, it scans the transcript for customer feedback, onboarding friction, conversion and churn signals, exact customer quotes, UX findings, and positioning gaps. Each signal gets captured with a consumer reframe: not what was said internally, but what it means for the person on the other end of the product.
+
+The output is a running inventory that compounds over time. Individual signals are weak. Patterns across 20 meetings are not.
+
+The broader insight: the richest customer signal often doesn't come from scheduled user interviews. It comes from people who talk to customers every day — sales, CS, PMM — and it surfaces in the meetings PMs are already sitting in. The problem isn't access. It's that nobody built a system to catch it.
+
+Direct quotes are the most important thing to preserve. The exact words a customer uses to describe a problem carry signal that a clean paraphrase destroys. Paraphrasing is interpretation. The raw quote is data.
+
+---
+
 ## The through-line
 
 None of these were insights I read somewhere. They came from building something small and watching it fail in specific ways.

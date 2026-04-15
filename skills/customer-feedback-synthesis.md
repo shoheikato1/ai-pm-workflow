@@ -1,4 +1,4 @@
-# Skill: consumer-signal-synthesis
+# Skill: customer-feedback-synthesis
 
 > Triggered automatically during cross-functional meetings. Scans for customer signals
 > and synthesizes them into a running inventory tied to product decisions.
