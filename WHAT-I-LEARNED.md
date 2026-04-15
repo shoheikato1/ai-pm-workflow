@@ -48,6 +48,20 @@ This is the unsexy version of RLHF. It works at personal scale. I think it scale
 
 ---
 
+## 4. Feedback loops apply to your own behavior too
+
+My manager gave me specific behavioral feedback: tie work to measurable outcomes, not just activity. Use the team's vocabulary consistently. The kind of feedback that's easy to nod at and gradually forget.
+
+Instead of writing it on a sticky note, I wired it into the system. Every outbound message — every Slack, every document, every meeting prep — runs through an automated checklist before it goes out. Vocabulary confirmed against the team glossary. Leading with value, not an ask. Enough context that the recipient can respond without a follow-up. The checklist shows a report every time: what passed, what was fixed, what needs my verification.
+
+The feedback is now a system property, not a personal reminder.
+
+The broader insight: PMs spend a lot of energy building feedback loops into products. Activation rates, support tickets, NPS. The same principle applies to your own communication. If a behavior needs to change, instrument it. Make the check automatic. The goal is to stop relying on willpower and start relying on the system.
+
+There's also a second-order effect: when your communication system runs a vocabulary check on every message, you're forced to maintain a shared glossary. That glossary becomes a living artifact of how the team actually talks about the product, which is different from how the product is documented, which is different from how it's sold. Those gaps are often where the most important product problems live.
+
+---
+
 ## The through-line
 
 None of these were insights I read somewhere. They came from building something small and watching it fail in specific ways.

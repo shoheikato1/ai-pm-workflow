@@ -4,7 +4,7 @@ I built this because the standard AI workflow for PMs doesn't actually work.
 
 Every session starts from scratch. You re-explain your initiatives, your stakeholders, your open threads. The AI gives you generic professional language instead of yours. Meeting notes get written and forgotten. Nothing compounds.
 
-I work across a portfolio of AI agent products: voice agents that handle live customer calls, conversational SMS agents, signal intelligence products. On any given day I'm moving between deep technical discussions and executive stakeholder communication across 7+ teams. I needed an AI that already knew all of that before I said a word.
+I work across a portfolio of AI agent products: voice agents that handle live customer calls, conversational SMS agents, signal intelligence products. My work spans the full product surface: customer signal synthesis from cross-functional conversations, shaping how agents behave and respond, driving alignment across 7+ teams from engineering to GTM. I needed an AI that already knew all of that before I said a word.
 
 This repo is a sanitized template of the system I actually use. Building it also surfaced three insights about AI products I hadn't expected. If you read one thing here, make it this: [What Building This Taught Me About AI Products](WHAT-I-LEARNED.md)
 
