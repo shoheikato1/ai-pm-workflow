@@ -42,6 +42,40 @@ Every technical meeting note includes a section I call the PM Translation Layer:
 
 ---
 
+## Two Design Patterns Worth Stealing
+
+### Initiative files with a running narrative
+
+Every product area I own has a single file in `context/initiatives/`. The top of each file is a running narrative: 2-3 sentence entries, newest first, one per significant development.
+
+When a meeting touches an initiative, Claude proposes an addition to the running narrative as part of the meeting ingest flow. Over time, each file becomes a living history of that product area: what happened, what was decided, what's in flight, where the sticking points are.
+
+The practical benefit: Claude can brief itself on any initiative in seconds without reading through a month of meeting notes. And I can do the same.
+
+The structure for each file:
+
+```
+## Running Narrative        ← newest entry at top, updated after every relevant meeting
+## Key Decisions            ← table: date | decision | source
+## Positions and Stances    ← where the team drew a boundary or took an explicit cross-team stance
+## Open Action Items        ← aggregated across all related meetings
+## Open Questions           ← unresolved questions that affect direction
+```
+
+The "Positions and Stances" section is the one most people skip. It's the most valuable. Cross-team scope decisions, declined ownership calls, explicit stances — these come up again in future meetings. Having them in one place means I'm never relitigating a decision that was already made.
+
+### Meeting context files
+
+Each recurring meeting has a standing context file in `meetings/_context/`. Before generating a note for that meeting, Claude loads the matching context file.
+
+A context file captures things that don't change meeting to meeting: the purpose of the meeting, the recurring participants and their roles, standing agenda items, past decisions that remain relevant, and things to watch for from specific stakeholders.
+
+The result: Claude walks into every recurring meeting already briefed. The generated note reflects that context instead of treating each meeting as if it happened in isolation.
+
+For a weekly sync with an important stakeholder, the context file might include: their current priorities, the decisions that came out of the last three sessions, the open thread they keep returning to, and what they're evaluating you on. That's not something you want to re-explain each session.
+
+---
+
 ## The Self-Improvement Loop
 
 This is the part that surprised me most.
@@ -87,11 +121,12 @@ ai-pm-workflow/
 ├── meetings/
 │   └── _context/               # Standing files loaded before recurring meetings
 │
+├── people/                     # Per-person and per-team context files
+├── working/                    # In-progress drafts and working docs
+│
 ├── skills/                     # Skill scripts (markdown, trigger-activated)
 ├── templates/                  # Meeting note and initiative templates
-├── _meta/                      # Vault health: routing table, friction log, signal log
-├── _staging/                   # Output staging (confirmed before final write)
-└── memory/                     # Persistent memory across sessions
+└── _meta/                      # Vault health: routing table, friction log, signal log
 ```
 
 ---
