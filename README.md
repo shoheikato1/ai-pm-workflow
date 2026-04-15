@@ -76,6 +76,34 @@ For a weekly sync with an important stakeholder, the context file might include:
 
 ---
 
+## Observability: Tracking What the LLM Actually Does
+
+Most AI setups have no visibility into what's happening under the hood. This one does.
+
+Every session, Claude logs which context files it loaded and why, in a structured table: date, meeting or task, file loaded, trigger reason. This is the context load log — a per-session audit trail of the LLM's routing decisions.
+
+```
+| Date       | Task                  | File loaded                          | Trigger reason              |
+| 2026-04-14 | Weekly sync with mgr  | meetings/_context/manager-sync.md    | Manager present             |
+| 2026-04-14 | Weekly sync with mgr  | context/initiatives/initiative-a.md  | Delivery question came up   |
+| 2026-04-14 | Cross-team review     | context/initiatives/initiative-b.md  | Scope overlap discussion    |
+```
+
+That log feeds a second layer: tag analytics. Each context file and skill gets tracked across sessions for load frequency and usefulness. The resulting matrix drives vault maintenance decisions:
+
+| Signal | What it means |
+|---|---|
+| High frequency + high usefulness | Hot file — keep it current and accessible |
+| High frequency + low usefulness | Loaded by habit, not contributing — investigate the routing rule |
+| Low frequency + high usefulness | Deep reference — keep it, don't expect it every session |
+| Never loaded | Archive candidate |
+
+The same logic applies to skills. A skill that never gets triggered either has a broken trigger phrase or was built for a use case that doesn't actually recur. Usage frequency is how I evaluate whether a skill still earns its place in the system.
+
+This is straightforward product analytics applied to an AI workflow: define what "working" looks like, instrument it, and let the data surface what to fix or cut. The difference is that the product being measured is the AI system itself.
+
+---
+
 ## The Self-Improvement Loop
 
 This is the part that surprised me most.
