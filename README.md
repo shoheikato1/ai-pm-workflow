@@ -1,146 +1,133 @@
 # AI-Augmented PM Workflow
 
-A personal operating system for product managers, built on [Obsidian](https://obsidian.md), [Claude Code](https://claude.ai/code), and git. Designed to give Claude persistent context across sessions so it can act as a true PM co-pilot: not just answering questions, but running your day.
+I built this because the standard AI workflow for PMs doesn't actually work.
+
+Every session starts from scratch. You re-explain your initiatives, your stakeholders, your open threads. The AI gives you generic professional language instead of yours. Meeting notes get written and forgotten. Nothing compounds.
+
+I'm a Staff PM on a data platform team. My work spans 7+ cross-functional teams, a dozen active initiatives, and constant context-switching between technical discussions and stakeholder communication. I needed an AI that already knew all of that before I said a word.
+
+This repo is a sanitized template of the system I actually use.
 
 ---
 
-## The Problem
+## What It Is
 
-Most AI tools start fresh every conversation. As a PM, your context is complex: active initiatives, stakeholder relationships, cross-team dependencies, meeting history, open threads. Re-explaining this every session is slow and lossy.
+A vault-based operating system built on [Obsidian](https://obsidian.md), [Claude Code](https://claude.ai/code), and git.
 
-This system solves that. Claude has full context of your work, loaded automatically at session start, updated continuously, and carried forward across days.
-
----
-
-## What This Is
-
-A vault-based workflow where:
-
-* **Your vault** (Obsidian) is the source of truth for all work context
-* **CLAUDE.md** tells Claude who you are, how to behave, and what to load
-* **Skills** are markdown scripts that execute structured multi-step workflows on trigger phrases
-* **Session Handover** carries state forward so every session starts mid-thought, not from scratch
-* **Memory** (persistent files) stores preferences and patterns that survive context window resets
-
-The result: Claude knows your initiatives, your stakeholders, your writing voice, your open threads, and your working principles. You spend your time on actual PM work, not context-setting.
+* **CLAUDE.md** is the session contract. It tells Claude who I am, what I'm working on, how I communicate, and what to load before responding. It's reread at the start of every session.
+* **Skills** are markdown workflows triggered by phrases. "Ingest this meeting" runs a 5-step structured process. "Morning brief" surfaces open actions and today's context. No re-explaining required.
+* **Session Handover** carries state forward. 30-line cap. Overwritten each session. Every session starts mid-thought, not from scratch.
+* **The vault** is the source of truth. 23 initiative files. 28+ meeting notes. A running decision log, action item tracker, and stakeholder conversation thread — all maintained automatically.
 
 ---
 
-## System Architecture
+## The Design Decisions That Actually Matter
+
+### Confirmation gates everywhere
+Claude proposes. I confirm. Nothing writes without explicit approval. Each gate is independent.
+
+This sounds like friction. It's the opposite. An AI that auto-writes will corrupt your vault with confident errors faster than you can clean them up. The gate keeps me in control of the record while removing the cognitive load of writing it.
+
+### Skills are plain markdown, not prompts
+Skills are `.md` files I can read, edit, and debug. They're not stored in a tool, not wrapped in an API, not locked to any platform. If a skill produces the wrong output, I open the file and fix the step. The system is fully transparent.
+
+### The session handover is 30 lines, no more
+When the handover gets longer than 30 lines, it stops being useful. The rule forces discipline: the vault carries depth, the handover carries the thread. What's open, what just happened, what carries forward tomorrow. That's it.
+
+### Voice calibration, not AI polish
+The `match-voice` skill loads my own past writing as examples before drafting anything. It's looking for register, sentence length, directness, and whether the ask lands at the end where it should. Generic professional language is the wrong target. My voice is the target.
+
+### The PM Translation Layer
+Every technical meeting note includes a section I call the PM Translation Layer: what the technical discussion meant in PM terms, and the injection points for the next meeting — moments where engineers made scope calls that warrant PM input. This keeps me from walking into follow-up meetings having processed the transcript but not the implications.
+
+---
+
+## The Self-Improvement Loop
+
+This is the part that surprised me most.
+
+Every daily summary skill runs a friction scan: moments where I said "that's wrong," where the wrong context was loaded, where something had to be re-explained from the previous session. Those get logged to `_meta/friction.md` with a root cause and a proposed fix.
+
+The friction log now has 128 lines of entries. Each one became a change: a routing rule added, a skill step clarified, a context file created. Over ~4 weeks of active use, the system made itself measurably better at knowing when to load which file, how to frame which output, and when not to guess.
+
+Real example: Claude was paginating through 1,400+ Slack users to find a DM contact instead of checking the channel index file that already had the ID. One friction log entry. One routing rule added to CLAUDE.md. Never happened again.
+
+The system learns from its own errors because the errors are documented in a format that feeds back into the instructions.
+
+---
+
+## What It's Connected To
+
+This system is designed to pull live data rather than rely on copy-paste:
+
+| MCP Server | What it enables |
+|---|---|
+| Meeting transcripts | Auto-fetch, parse, and file notes without ever leaving the vault |
+| Jira | Sprint prep, ticket lookup, delivery planning |
+| Slack | Channel history, drafting and sending messages |
+| Google Drive | Document reads with session-safe token caching |
+| Data catalog | Asset lookup during technical discussions |
+
+Without MCP the system still works — you paste content in. MCP removes the copy-paste step.
+
+---
+
+## Structure
 
 ```
 ai-pm-workflow/
-├── CLAUDE.md                   # Claude session instructions: who you are, rules, skill triggers
-├── SESSION-HANDOVER.md         # Cross-session state (overwritten each session, max 30 lines)
+├── CLAUDE.md                   # Session contract: who you are, rules, skill triggers
+├── SESSION-HANDOVER.md         # Cross-session state (30-line cap, overwritten each session)
 │
-├── context/                    # Standing context loaded during work sessions
-│   ├── initiatives/            # One file per active initiative (the core of the vault)
-│   ├── org-context.md          # Org structure, team roster, stakeholder map
-│   └── working-principles.md   # How you think, recurring patterns, standing directives
+├── context/
+│   ├── initiatives/            # One file per active initiative (the vault spine)
+│   ├── org-context.md          # Org structure, stakeholder map
+│   └── working-principles.md   # How you think, standing directives
 │
-├── meetings/                   # Meeting notes (YYYY-MM-DD-slug.md)
-│   └── _context/               # Standing context files loaded before recurring meetings
+├── meetings/
+│   └── _context/               # Standing files loaded before recurring meetings
 │
-├── people/                     # Per-person or per-team context
-├── daily/                      # Daily notes (generated by daily-summary skill)
-├── working/                    # In-progress drafts and working docs
-│
-├── skills/                     # Skill scripts: markdown workflows triggered by phrases
-├── templates/                  # Reusable note templates
-│
-├── _meta/                      # Vault health and observability
-│   ├── context-routing.md      # Keyword-to-file routing table (used by Claude)
-│   ├── signal-log.md           # Implicit friction and pattern observations
-│   └── friction.md             # Corrections and misfires (feeds system improvement)
-│
-├── _staging/                   # Temporary output staging (confirmed before final save)
-└── memory/                     # Claude persistent memory files
-    └── MEMORY.md               # Memory index (loaded every session)
+├── skills/                     # Skill scripts (markdown, trigger-activated)
+├── templates/                  # Meeting note and initiative templates
+├── _meta/                      # Vault health: routing table, friction log, signal log
+├── _staging/                   # Output staging (confirmed before final write)
+└── memory/                     # Persistent memory across sessions
 ```
 
 ---
 
-## The Skills System
-
-Skills are the core mechanic. Each skill is a markdown file with step-by-step instructions Claude follows when triggered. They are composable, confirmation-gated, and self-documenting.
-
-**How it works:**
-
-1. You say a trigger phrase ("morning brief", "ingest this meeting", "let's wrap up")
-2. Claude loads the matching skill file from `skills/`
-3. Claude follows each step, proposes output, and waits for confirmation before writing
-
-**Skills included in this template:**
+## Skills Included
 
 | Skill | Trigger | What it does |
 |---|---|---|
 | `morning-brief` | "morning brief", "what's on my plate" | Surfaces open actions, recent decisions, today's meetings |
 | `meeting-ingest` | "ingest this meeting" | Fetches transcript, generates structured note, proposes initiative updates |
-| `match-voice` | "draft this", "how should I say this" | Calibrates any draft to your writing voice, not AI-speak |
-| `daily-summary` | "let's wrap up", "EOD" | Synthesizes the day into a daily note, surfaces friction, proposes system improvements |
-
----
-
-## Key Design Principles
-
-**1. Confirmation gates everywhere.**
-Claude proposes. You confirm. Nothing is written without explicit approval. Each gate is independent.
-
-**2. Extract, don't summarize.**
-Meeting notes preserve signal. Decisions are quoted. Action items are tagged. The vault compounds in value over time because nothing is compressed into oblivion.
-
-**3. The system improves itself.**
-The daily-summary skill surfaces friction (wrong context loaded, output corrected) and proposes fixes to CLAUDE.md, skill files, or context files. Over time, Claude makes fewer errors because the system learns from them.
-
-**4. Session handover keeps state alive.**
-SESSION-HANDOVER.md is overwritten each session with a structured `RESUME HERE` block: what happened, what's open, what carries forward. 30-line cap. The vault carries the depth; handover carries the thread.
-
-**5. Voice calibration, not AI polish.**
-The match-voice skill loads your own past writing as examples. Claude calibrates to you, not to a generic professional register.
+| `match-voice` | "draft this", "how should I say this" | Calibrates output to your writing voice, not AI voice |
+| `daily-summary` | "let's wrap up", "EOD" | Synthesizes the day, surfaces friction, proposes system improvements |
 
 ---
 
 ## How to Adapt This
 
-1. **Fork or copy this repo**
-2. **Edit `CLAUDE.md`** to set your name, role, org context, and writing rules
-3. **Set up your initiative files** in `context/initiatives/` (one per active product area)
-4. **Add your org context** in `context/org-context.md`
-5. **Wire up skills** by mapping trigger phrases in CLAUDE.md to skill files
-6. **Run Claude Code** inside the vault directory
+1. Fork or copy this repo
+2. Edit `CLAUDE.md`: your name, role, org context, writing rules, MCP servers
+3. Create your initiative files in `context/initiatives/` — one per active product area
+4. Add your org context in `context/org-context.md`
+5. Start logging voice samples in `context/voice-samples.md` (the match-voice skill gets more accurate over time)
+6. Run Claude Code from the vault directory
 
-Optional: connect MCP servers (Jira, Slack, meeting transcripts, Google Drive) to let Claude pull live data rather than relying only on vault files.
-
----
-
-## MCP Connections (Optional)
-
-This system is designed to work with MCP servers that give Claude access to external data:
-
-| Service | What it enables |
-|---|---|
-| Meeting transcripts (e.g. Granola) | Auto-ingest: fetch, parse, and file meeting notes |
-| Jira / project tracking | Sprint prep, ticket lookup, delivery planning |
-| Slack | Channel history, draft and send messages |
-| Google Drive | Read and cache documents |
-| Data catalog | Look up data assets during technical discussions |
-
-Without MCP, the system still works: you paste meeting content, ticket details, or Slack threads directly. MCP just removes the copy-paste step.
+The system is useful from day one but compounds over weeks. The more context accumulates, the less you explain.
 
 ---
 
-## What Makes This Different from a ChatGPT Wrapper
+## What This Signals (and What It Doesn't)
 
-* **Persistent context.** Claude knows your initiatives, stakeholders, and open threads before you say a word.
-* **Structured workflows.** Skills turn complex multi-step tasks (meeting ingestion, daily synthesis) into single trigger phrases.
-* **System self-improvement.** Friction is logged, patterns are promoted to principles, and the system gets better each week.
-* **Your voice, not AI voice.** match-voice calibrates to your actual writing samples, not a generic professional register.
-* **No lock-in.** Everything is plain markdown. The vault works in Obsidian without Claude. Claude works without Obsidian. Git keeps it versioned and portable.
+The point of this system is not the tooling. Any PM could set up Obsidian and Claude Code.
+
+The point is applying the same product thinking to your own workflow that you'd apply to a product: identify the real pain, design around the failure mode, build a feedback loop, iterate. The friction log is a bug tracker for the system itself. The session handover is a product spec for the next session.
+
+If you're a PM who thinks about AI seriously, I'm always interested in comparing notes: [linkedin.com/in/shoheikato](https://linkedin.com/in/shoheikato)
 
 ---
 
-## About
-
-This is a sanitized template derived from a production system used by a Staff PM at a B2B SaaS company. The structure, skills, and principles are real. Company-specific content (initiative names, stakeholder details, internal tools) has been removed and replaced with generic placeholders.
-
-Built and maintained using [Claude Code](https://claude.ai/code).
+*Sanitized template. Company-specific content (initiative names, stakeholders, internal tools) has been removed. The structure, skills, and design rationale are real.*
