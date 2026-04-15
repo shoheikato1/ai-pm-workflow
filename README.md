@@ -4,7 +4,7 @@ I built this because the standard AI workflow for PMs doesn't actually work.
 
 Every session starts from scratch. You re-explain your initiatives, your stakeholders, your open threads. The AI gives you generic professional language instead of yours. Meeting notes get written and forgotten. Nothing compounds.
 
-I'm a Staff PM on a data platform team. My work spans 7+ cross-functional teams, a dozen active initiatives, and constant context-switching between technical discussions and stakeholder communication. I needed an AI that already knew all of that before I said a word.
+I work across a portfolio of AI agent products: voice agents that handle live customer calls, conversational SMS agents, signal intelligence products. On any given day I'm moving between deep technical discussions and executive stakeholder communication across 7+ teams. I needed an AI that already knew all of that before I said a word.
 
 This repo is a sanitized template of the system I actually use.
 
