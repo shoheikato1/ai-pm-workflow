@@ -6,7 +6,7 @@ Every session starts from scratch. You re-explain your initiatives, your stakeho
 
 I work across a portfolio of AI agent products: voice agents that handle live customer calls, conversational SMS agents, signal intelligence products. On any given day I'm moving between deep technical discussions and executive stakeholder communication across 7+ teams. I needed an AI that already knew all of that before I said a word.
 
-This repo is a sanitized template of the system I actually use.
+This repo is a sanitized template of the system I actually use. Building it also surfaced three insights about AI products I hadn't expected. If you read one thing here, make it this: [What Building This Taught Me About AI Products](WHAT-I-LEARNED.md)
 
 ---
 
@@ -188,6 +188,8 @@ The system is useful from day one but compounds over weeks. The more context acc
 The point of this system is not the tooling. Any PM could set up Obsidian and Claude Code.
 
 The point is applying the same product thinking to your own workflow that you'd apply to a product: identify the real pain, design around the failure mode, build a feedback loop, iterate. The friction log is a bug tracker for the system itself. The session handover is a product spec for the next session.
+
+Building this also surfaced three insights about AI products that I hadn't expected. They're written up here: [WHAT-I-LEARNED.md](WHAT-I-LEARNED.md)
 
 If you're a PM who thinks about AI seriously, I'm always interested in comparing notes: [linkedin.com/in/shoheikato](https://linkedin.com/in/shoheikato)
 
