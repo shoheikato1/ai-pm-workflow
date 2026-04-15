@@ -54,4 +54,4 @@ None of these were insights I read somewhere. They came from building something 
 
 The personalization problem, the context quality problem, the feedback loop problem — they're not research problems. They're product problems. They show up at the level of one user's workflow just as clearly as they show up at the level of a million users. The solutions at both scales rhyme more than most people expect.
 
-If you're working on any of this, I'd like to compare notes: [linkedin.com/in/shoheikato](https://linkedin.com/in/shoheikato)
+If you're working on any of this, I'd like to compare notes: [linkedin.com/in/shohei-kato](https://linkedin.com/in/shohei-kato)

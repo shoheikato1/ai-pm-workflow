@@ -191,7 +191,7 @@ The point is applying the same product thinking to your own workflow that you'd 
 
 Building this also surfaced three insights about AI products that I hadn't expected. They're written up here: [WHAT-I-LEARNED.md](WHAT-I-LEARNED.md)
 
-If you're a PM who thinks about AI seriously, I'm always interested in comparing notes: [linkedin.com/in/shoheikato](https://linkedin.com/in/shoheikato)
+If you're a PM who thinks about AI seriously, I'm always interested in comparing notes: [linkedin.com/in/shohei-kato](https://linkedin.com/in/shohei-kato)
 
 ---
 
